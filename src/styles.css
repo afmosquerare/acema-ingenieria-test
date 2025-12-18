@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark, dracula;
+}
+
+:is( button, input ):focus-visible{
+    outline: 2px solid var(--color-primary)
+}
