@@ -1,5 +1,5 @@
 export interface UserResult {
-    users: User[];
+    results: User[];
     info:    Info;
 }
 

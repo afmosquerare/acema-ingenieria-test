@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Observable, pipe, shareReplay, single, tap } from 'rxjs';
+import { map, Observable, pipe, shareReplay, single, tap } from 'rxjs';
 import { User, UserResult } from '../interfaces/user';
 import { environment } from '../../../environments/environment.development';
 @Injectable({providedIn: 'root'})
@@ -17,13 +17,25 @@ export class UsersService {
 
     public getUsers( limit: number = 100  ): Observable<UserResult>{
         return this.http.get<UserResult>( `${this.url()}/?results=${limit}`  )
-        .pipe( shareReplay(1), tap( data => console.log(data)), tap( ( response )=> this.saveLocalStorage( response  ) ) )
+        .pipe( 
+            shareReplay(1),
+            map((response)=> this.loadDataLocalStorage( response )), 
+            tap( ( response )=> this.saveLocalStorage( response  ) ) )
+
+    }
+    public getUsersForTable( limit: number = 100  ): Observable<UserResult>{
+        return this.http.get<UserResult>( `${this.url()}/?results=${limit}`  )
 
     }
 
     private saveLocalStorage( data: UserResult ){
         if(localStorage.getItem( this.usersKey() )) return;
         localStorage.setItem( this.usersKey(), JSON.stringify( data ) );
+    }
+
+    private loadDataLocalStorage( temp: UserResult ){
+        const data = localStorage.getItem( this.usersKey() ) 
+        return data ? JSON.parse( data ) : temp;
     }
 
 
