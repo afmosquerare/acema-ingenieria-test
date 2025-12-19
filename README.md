@@ -9,7 +9,7 @@ Este proyecto es una aplicación Angular.
 - Angular CLI (opcional, se puede instalar globalmente):
 
 
-# Instalacion de nnnnnnn
+# Instalacion de Angular
 ``` npm install -g @angular/cli ```
 
 # Clonacion del repositorio
